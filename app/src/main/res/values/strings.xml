@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Android P2P</string>
+    <string name="connection_status">Connection Status</string>
+    <string name="wifi">WiFi</string>
+    <string name="search">Search</string>
+    <string name="messages">Messages</string>
+    <string name="send">Send</string>
+
+</resources>
