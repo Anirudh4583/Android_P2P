@@ -3,8 +3,11 @@ package com.example.androidp2p;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
     EditText typeMsg;
 
     WifiManager wifiManager;
+    WifiP2pManager mManager;
+    WifiP2pManager.Channel mChannel;
+
+    BroadcastReceiver mReceiver;
+    IntentFilter mIntFilter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +47,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(wifiManager.isWifiEnabled()) {
                     wifiManager.setWifiEnabled(false);
+                    OnOff.setText("WiFi ON");
                 }
                 else {
                     wifiManager.setWifiEnabled(true);
+                    OnOff.setText("WiFi OFF");
                 }
             }
         });
@@ -56,5 +67,27 @@ public class MainActivity extends AppCompatActivity {
         typeMsg = (EditText) findViewById(R.id.message_input);
 
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
+        mChannel = mManager.initialize(this, getMainLooper(), null); //this we'll later use to connect the app to the p2p framework
+
+        mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
+        mIntFilter = new IntentFilter();
+        mIntFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
+        mIntFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
+        mIntFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
+        mIntFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mReceiver, mIntFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiver);
     }
 }
