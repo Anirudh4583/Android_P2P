@@ -1,9 +1,19 @@
 <resources>
-    <string name="app_name">WiChat</string>
-    <string name="connection_status">Connection Status</string>
-    <string name="wifi">WiFi</string>
-    <string name="search">Search</string>
-    <string name="messages">Messages</string>
-    <string name="send">Send</string>
+    <string name = "app_name">WiChat</string>
+    <string name = "connection_status">Connection Status</string>
+    <string name = "wifi">WiFi</string>
+    <string name = "search">Search</string>
+    <string name = "messages">Messages</string>
+    <string name = "send">Send</string>
+    <string name = "search_pass">Search Initiated</string>
+    <string name = "search_fail">ERROR: Search Initiation Restricted</string>
+    <string name = "host">Host</string>
+    <string name = "client">Client</string>
+    <string name = "discon">Device Disconnected</string>
+    <string name = "wifi_on">WiFi ON</string>
+    <string name = "wifi_off">WiFi OFF</string>
 
+    <!--    <string name = "wifi_off">WiFi OFF</string>-->
+    <!--    <string name = "wifi_off">WiFi OFF</string>-->
+    <!--    <string name = "wifi_off">WiFi OFF</string>-->
 </resources>
