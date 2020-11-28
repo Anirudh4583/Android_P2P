@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ContentProviderClient;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.InetAddresses;
@@ -22,6 +23,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -65,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     TextView conStat, readMsg;          // connection status field, message o/p field
     ListView showPeer;                  // available devices list
     EditText typeMsg;                   // message i/p field
+    ImageView goToSettings;             // to go to settings window
+    TextView goToSettingsText;
 
     WifiManager wifiManager;
     WifiP2pManager mManager;
@@ -88,17 +93,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialWork();
+        goToSettings();
         exqListener();
     }
 
-    /* Handler initialisation using callback argument is deprecated
-        TODO: update the deprecated constructor
-                with some other alternative
-
-                community say: use executor
-                use: new Handler( looper.myLooper(), callback)
-    */
-    Handler handler = new Handler(new Handler.Callback() {
+    Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
             switch(message.what) {
@@ -112,21 +111,21 @@ public class MainActivity extends AppCompatActivity {
         }
     });
 
-    private void exqListener() {
-        OnOff.setOnClickListener(new View.OnClickListener() {
+    public void goToSettings(){
+        goToSettings.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                if (wifiManager.isWifiEnabled()) {
-                    wifiManager.setWifiEnabled(false);
-                    OnOff.setText(R.string.wifi_on);
-                } else {
-                    wifiManager.setWifiEnabled(true);
-                    OnOff.setText(R.string.wifi_off);
-                }
+            public void onClick(View arg0) {
+
+                //Open Wifi settings
+                startActivityForResult(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS), 0);
             }
         });
+    }
 
-        // !! the button won't work !!
+    private void exqListener() {
+
+//         !! the button won't work !!
     /* setWiFiEnabled(boolean) is deprecated in API level 29
         TODO: update the deprecated function
                 with some other alternative
@@ -144,7 +143,19 @@ public class MainActivity extends AppCompatActivity {
 			                 }
 		                });
     */
-
+//
+//        OnOff.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (wifiManager.isWifiEnabled()) {
+//                    wifiManager.setWifiEnabled(false);
+//                    OnOff.setText(R.string.wifi_on);
+//                } else {
+//                    wifiManager.setWifiEnabled(true);
+//                    OnOff.setText(R.string.wifi_off);
+//                }
+//            }
+//        });
 
         searchPeer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,9 +227,9 @@ public class MainActivity extends AppCompatActivity {
         sendMsg = (Button) findViewById(R.id.send_button);
         conStat = (TextView) findViewById(R.id.connection_status);
         readMsg = (TextView) findViewById(R.id.message_output);
-        OnOff = (Button) findViewById(R.id.on_off_switch);
         showPeer = (ListView) findViewById(R.id.devices_ListView);
         typeMsg = (EditText) findViewById(R.id.message_input);
+        goToSettings = findViewById(R.id.go_to_settings);
 
         // object initialisation with hardware check
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);

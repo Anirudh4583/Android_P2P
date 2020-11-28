@@ -63,11 +63,11 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
             NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
 
             // check if the device is connected with peer
-            if (networkInfo.isConnected()) {
-                mManager.requestConnectionInfo(mChannel, mActivity.connectionInfoListener);
-            } else {
-                mActivity.conStat.setText(R.string.discon);
-            }
+//            if (networkInfo.isConnected()) {
+//                mManager.requestConnectionInfo(mChannel, mActivity.connectionInfoListener);
+//            } else {
+//                mActivity.conStat.setText(R.string.discon);
+//            }
             /* NetworkInfo class is deprecated but works for some cases
                 TODO: update the deprecated class/function
                         with some other alternative

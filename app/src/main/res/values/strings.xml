@@ -12,6 +12,8 @@
     <string name = "discon">Device Disconnected</string>
     <string name = "wifi_on">WiFi ON</string>
     <string name = "wifi_off">WiFi OFF</string>
+    <string name = "go_to_settings_button">Go To Settings</string>
+    <string name="text_go_to_settings">Click the image above to go to Settings and connect your device to others by Wifi-Direct</string>
 
     <!--    <string name = "wifi_off">WiFi OFF</string>-->
     <!--    <string name = "wifi_off">WiFi OFF</string>-->
